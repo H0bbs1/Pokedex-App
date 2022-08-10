@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Pokemons</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list lines="full">
+    <ion-item
+      *ngFor="let pokemon of pokemonList"
+      button="true"
+      [routerLink]="['/pokemon-detail', pokemon.id]"
+    >
+      <ion-avatar slot="start">
+        <img [src]="pokemon.imageURL" />
+      </ion-avatar>
+      <ion-label
+        >{{pokemon.name}}
+        <p>#{{pokemon.id}}</p></ion-label
+      >
+    </ion-item>
+  </ion-list>
+</ion-content>
