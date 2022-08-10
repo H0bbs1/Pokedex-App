@@ -1,0 +1,7 @@
+{
+  "name": "individualassignment",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
