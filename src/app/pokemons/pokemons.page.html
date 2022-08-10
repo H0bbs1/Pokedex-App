@@ -8,6 +8,11 @@
 </ion-header>
 
 <ion-content>
+  <ion-searchbar
+    [(ngModel)]="searchTerm"
+    (ionChange)="searchChanged($event)"
+    placeholder="Search Pokemon..."
+  ></ion-searchbar>
   <ion-list lines="full">
     <ion-item
       *ngFor="let pokemon of pokemonList"
@@ -17,10 +22,10 @@
       <ion-avatar slot="start">
         <img [src]="pokemon.imageURL" />
       </ion-avatar>
-      <ion-label
-        >{{pokemon.name}}
-        <p>#{{pokemon.id}}</p></ion-label
-      >
+      <ion-label>
+        {{pokemon.name}}
+        <p>#{{pokemon.id}}</p>
+      </ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

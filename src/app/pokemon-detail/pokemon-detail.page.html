@@ -1,9 +1,86 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>pokemonDetail</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{details?.name}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <div *ngIf="details">
+    <img [src]="details.imageURL" />
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <strong>#{{details.id}} {{details.name}}</strong>
+          <ion-chip *ngFor="let type of details.types" color="secondary">
+            <ion-label>{{type}}</ion-label>
+          </ion-chip>
+        </ion-card-title>
+      </ion-card-header>
 
+      <ion-card-content>
+        <ion-list lines="full">
+          <ion-item>
+            <ion-label class="ion-text-wrap">
+              <b>Abilities: </b>
+              <span *ngFor="let ability of details.abilities, let last = last">
+                {{ability}}{{last ? '' : ', '}}
+              </span>
+            </ion-label>
+          </ion-item>
+
+          <ion-item *ngFor="let stat of details.stats">
+            <ion-label slot="start">
+              <h2>
+                <b>
+                  {{stat.name.charAt(0).toUpperCase() + stat.name.slice(1)}}
+                </b>
+              </h2>
+            </ion-label>
+            <ion-label slot="end"> {{stat.value}} </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-item href="#" class="ion-activated">
+        <ion-icon name="wifi" slot="start"></ion-icon>
+        <ion-label>Card Link Item 1 activated</ion-label>
+      </ion-item>
+
+      <ion-item href="#">
+        <ion-icon name="wine" slot="start"></ion-icon>
+        <ion-label>Card Link Item 2</ion-label>
+      </ion-item>
+
+      <ion-item class="ion-activated">
+        <ion-icon name="warning" slot="start"></ion-icon>
+        <ion-label>Card Button Item 1 activated</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon name="walk" slot="start"></ion-icon>
+        <ion-label>Card Button Item 2</ion-label>
+      </ion-item>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <strong>{{details.name}}'s Attacks</strong>
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let move of details.moves">
+            <ion-label>{{move.name}}</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

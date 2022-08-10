@@ -2,28 +2,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
+import { Move, PokemonDetails, Stat } from '../models/pokemon-detail.model';
 import { Pokemon } from '../models/pokemon.model';
-
-interface PokemonDetails {
-  id: string;
-  name: string;
-  imageURL: string;
-  types: string[];
-  abilities: string[];
-  stats: Stat[];
-  moves: Move[];
-}
-
-interface Stat {
-  name: string;
-  value: number;
-}
-
-interface Move {
-  name: string;
-  url: string;
-}
-
 
 @Injectable({
   providedIn: 'root'
@@ -66,12 +46,22 @@ export class DataManagerService {
         return statDetail;
       });
 
-      pd.moves = res['moves'].map(move => {
+      pd.moves = [];
+      const pokeMoves = res['moves'];
+      for (let i = 0; i < 10 && i < pokeMoves.length; i++) {
         const moveDetail = {} as Move;
-        moveDetail.name = move.move.name.charAt(0).toUpperCase() + move.move.name.slice(1);
-        moveDetail.url = move.move.url;
-        return moveDetail;
-      });
+        moveDetail.name = pokeMoves[i].move.name;
+        moveDetail.name = moveDetail.name.charAt(0).toUpperCase() + moveDetail.name.slice(1);
+        moveDetail.url = pokeMoves[i].url;
+        pd.moves.push(moveDetail);
+      }
+
+      // pd.moves = res['moves'].map(move => {
+      //   const moveDetail = {} as Move;
+      //   moveDetail.name = move.move.name.charAt(0).toUpperCase() + move.move.name.slice(1);
+      //   moveDetail.url = move.move.url;
+      //   return moveDetail;
+      // });
 
       return pd;
     }));

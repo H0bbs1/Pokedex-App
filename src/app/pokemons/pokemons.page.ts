@@ -8,6 +8,7 @@ import { DataManagerService } from '../services/data-manager.service';
   styleUrls: ['./pokemons.page.scss'],
 })
 export class PokemonsPage implements OnInit {
+  searchTerm: string;
   pokemonList: Pokemon[] = [];
 
   constructor(private data: DataManagerService) {
@@ -17,6 +18,16 @@ export class PokemonsPage implements OnInit {
    }
 
   ngOnInit() {
+  }
+
+  searchChanged(e) {
+    console.log(this.searchTerm);
+    this.data.getPokemonList().subscribe(res => {
+      this.pokemonList = res;
+      if (this.searchTerm !== '') {
+        this.pokemonList = this.pokemonList.filter(pokemon => pokemon.name.startsWith(this.searchTerm));
+      }
+    });
   }
 
 }
