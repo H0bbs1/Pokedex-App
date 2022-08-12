@@ -9,8 +9,23 @@ import { StorageService } from '../services/storage.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  teamNames: string[] = [];
 
   constructor(private alertController: AlertController, private storage: StorageService) {
+    this.loadTeamNames();
+  }
+
+  loadTeamNames() {
+    this.storage.getAllTeamNames().then(res => {
+      this.teamNames = res;
+      console.log(this.teamNames);
+    });
+  }
+
+  deleteTeam(team) {
+    console.log(team);
+    this.storage.deleteTeam(team);
+    this.loadTeamNames();
   }
 
   async addNewTeam() {
@@ -28,9 +43,10 @@ export class HomePage {
         {
           text: 'Save',
           handler: (data) => {
-            console.log(data[0]);
             const teamName = data[0];
-            //this.storage.saveNewTeam(teamName)
+            this.storage.saveNewTeam(teamName).then(() => {
+              this.loadTeamNames();
+            });
           }
         },
         {

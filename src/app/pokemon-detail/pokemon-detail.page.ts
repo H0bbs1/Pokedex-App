@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { PokemonDetails } from '../models/pokemon-detail.model';
+import { Pokemon } from '../models/pokemon.model';
 import { DataManagerService } from '../services/data-manager.service';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-pokemon-detail',
@@ -12,48 +14,76 @@ import { DataManagerService } from '../services/data-manager.service';
 export class PokemonDetailPage implements OnInit {
   details: PokemonDetails = {} as PokemonDetails;
 
-  constructor(private data: DataManagerService, private route: ActivatedRoute, private alertController: AlertController) {
+  constructor(private data: DataManagerService, private route: ActivatedRoute,
+    private alertController: AlertController, private storage: StorageService, private toast: ToastController) {
    }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.data.getPokemonDetail(id).subscribe(res => {
       this.details = res;
-      console.log(this.details);
     });
   }
 
   async addToTeam() {
+    const teamRadio = [];
+    let teamNames;
+    this.storage.getAllTeamNames().then((res) => {
+      teamNames = res;
+      for (const team of teamNames) {
+        const radioInput = {label: team, type: 'radio', value: team};
+        teamRadio.push(radioInput);
+      }
+      this.createTeamSelectAlert(teamRadio);
+    });
+  }
+
+  async createTeamSelectAlert(teamInput) {
     const alert = await this.alertController.create({
       header: 'Select Team',
-      inputs: [
-        {
-          label: 'Team1',
-          type: 'radio',
-          value: 'Team1',
-        },
-        {
-          label: 'Team2',
-          type: 'radio',
-          value: 'Team2',
-        },
-        {
-          label: 'Team3',
-          type: 'radio',
-          value: 'Team3',
-        },
-      ],
+      inputs: teamInput,
       buttons: [
         {
           text: 'OK',
-          handler: (data) => {
-            console.log(data);
+          handler: (teamName) => {
+            this.addToStorage(teamName);
+            // const chosenPokemon: Pokemon = {id: this.details.id, name: this.details.name, imageURL: this.details.imageURL, url: ''};
+            // this.storage.addPokemonToTeam(teamName, chosenPokemon);
+            // try {
+            //   this.storage.addPokemonToTeam(teamName, chosenPokemon).then(() => {
+            //     this.displayAlert('Success', 'Pokemon Added!');
+            //   }, (err) => {
+            //     console.log(err);
+            //     this.displayAlert('Error', err);
+            //   });
+            // } catch(err: any) {
+            //   this.displayAlert('Error', err);
+            // }
           }
         },
         {
           text: 'Cancel'
         }
       ]
+    });
+    alert.present();
+  }
+
+  async addToStorage(teamName) {
+    const chosenPokemon: Pokemon = {id: this.details.id, name: this.details.name, imageURL: this.details.imageURL, url: ''};
+    try {
+      await this.storage.addPokemonToTeam(teamName, chosenPokemon);
+      this.displayAlert('Success', 'Pokemon Added!');
+    } catch(err) {
+      this.displayAlert('Error', err.message);
+    }
+  }
+
+  async displayAlert(headerMsg, msg) {
+    const alert = await this.alertController.create({
+      header: headerMsg,
+      message: msg,
+      buttons: ['OK']
     });
     alert.present();
   }
