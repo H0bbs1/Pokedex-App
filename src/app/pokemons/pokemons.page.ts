@@ -13,6 +13,7 @@ export class PokemonsPage implements OnInit {
 
   constructor(private data: DataManagerService) {
     this.data.getPokemonList().subscribe(res => {
+      console.log(res);
       this.pokemonList = res;
     });
    }

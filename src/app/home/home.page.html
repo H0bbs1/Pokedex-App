@@ -1,6 +1,9 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="end">
+      <ion-button size="small" (click)="addNewTeam()">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button>
       <ion-button size="small" [routerLink]="['/pokemons']">
         <ion-icon name="search-outline"></ion-icon>
       </ion-button>
