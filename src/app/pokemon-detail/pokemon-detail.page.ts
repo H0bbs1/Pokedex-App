@@ -47,18 +47,6 @@ export class PokemonDetailPage implements OnInit {
           text: 'OK',
           handler: (teamName) => {
             this.addToStorage(teamName);
-            // const chosenPokemon: Pokemon = {id: this.details.id, name: this.details.name, imageURL: this.details.imageURL, url: ''};
-            // this.storage.addPokemonToTeam(teamName, chosenPokemon);
-            // try {
-            //   this.storage.addPokemonToTeam(teamName, chosenPokemon).then(() => {
-            //     this.displayAlert('Success', 'Pokemon Added!');
-            //   }, (err) => {
-            //     console.log(err);
-            //     this.displayAlert('Error', err);
-            //   });
-            // } catch(err: any) {
-            //   this.displayAlert('Error', err);
-            // }
           }
         },
         {

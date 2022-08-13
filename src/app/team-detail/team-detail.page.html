@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{teamName}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid style="height: 100%; align-self: center">
+    <ion-row>
+      <ion-col *ngFor="let pokemon of pokemons" size="6">
+        <ion-card [routerLink]="['/pokemon-detail', pokemon.id]">
+          <ion-card-header>
+            <ion-img [src]="pokemon.imageURL"></ion-img>
+            <div style="text-align: center">
+              <ion-card-title><strong>{{pokemon.name}}</strong></ion-card-title>
+            </div>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

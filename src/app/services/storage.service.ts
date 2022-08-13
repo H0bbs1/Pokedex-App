@@ -31,18 +31,20 @@ export class StorageService {
 
   // Adds Pokemon to existing team
   async addPokemonToTeam(teamKey: string, pokemonValue: Pokemon) {
-    console.log('TeamName: ' + teamKey);
     const res = await this.storage.get(teamKey);
-    console.log(res);
 
     const pokemonArray = JSON.parse(res);
     if (pokemonArray.length < 6) {
-      console.log('less');
       pokemonArray.push(pokemonValue);
       this.storage?.set(teamKey, JSON.stringify(pokemonArray));
     }
     else {
       throw Error('Team is full');
     }
+  }
+
+  async getPokemons(teamKey: string) {
+    const pokemons = await this.storage.get(teamKey);
+    return JSON.parse(pokemons);
   }
 }

@@ -1,0 +1,21 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button size="small" (click)="showInfo()">
+        <ion-icon name="information-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <img
+      src="../../assets/poketeams.png"
+      style="height: 90px; width: auto; margin-bottom: 16px; margin-top: 0"
+    />
+    <!-- <h1>PokeTeams</h1> -->
+    <img src="../../assets/pokeball.png" [routerLink]="['/home']" />
+    <h2>Click the Pokeball to Start!</h2>
+  </div>
+</ion-content>
