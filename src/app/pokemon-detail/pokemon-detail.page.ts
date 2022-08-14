@@ -41,6 +41,7 @@ export class PokemonDetailPage implements OnInit {
   async createTeamSelectAlert(teamInput) {
     const alert = await this.alertController.create({
       header: 'Select Team',
+      message: (teamInput.length === 0 ? 'No teams' : ''),
       inputs: teamInput,
       buttons: [
         {
