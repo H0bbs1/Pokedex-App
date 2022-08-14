@@ -57,7 +57,12 @@
 
       <ion-card-content>
         <ion-list>
-          <ion-item *ngFor="let move of details.moves">
+          <ion-item
+            *ngFor="let move of details.moves"
+            [routerLink]="['/move-detail', move.id]"
+            button="true"
+            detail="true"
+          >
             <ion-label>{{move.name}}</ion-label>
           </ion-item>
         </ion-list>

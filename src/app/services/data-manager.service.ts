@@ -2,7 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { Move, PokemonDetails, Stat } from '../models/pokemon-detail.model';
+import { Move, MoveDetail, PokemonDetails, Stat } from '../models/pokemon-detail.model';
 import { Pokemon } from '../models/pokemon.model';
 
 @Injectable({
@@ -14,6 +14,7 @@ export class DataManagerService {
 
   constructor(private httpClient: HttpClient) { }
 
+  // Returns a list of Pokemon
   getPokemonList(offset = 0) {
     const url = `${this.baseURL}/pokemon?offset=${offset}&limit=151`;
     return this.httpClient.get(url).pipe(map(res => res['results']),
@@ -28,9 +29,9 @@ export class DataManagerService {
     );
   }
 
+  // Returns the details of a specific Pokemon
   getPokemonDetail(id) {
     const url = `${this.baseURL}/pokemon/${id}`;
-    console.log(url);
     return this.httpClient.get(url).pipe(map(res => {
       const pd = {} as PokemonDetails;
       pd.id = res['id'];
@@ -52,18 +53,35 @@ export class DataManagerService {
         const moveDetail = {} as Move;
         moveDetail.name = pokeMoves[i].move.name;
         moveDetail.name = moveDetail.name.charAt(0).toUpperCase() + moveDetail.name.slice(1);
-        moveDetail.url = pokeMoves[i].url;
+        moveDetail.url = pokeMoves[i].move.url;
+
+        const urlLength = moveDetail.url.length;
+        moveDetail.id = moveDetail.url.slice(urlLength - 4, urlLength - 1); // id of move is at the end of their url value
+        moveDetail.id = moveDetail.id.substring(moveDetail.id.indexOf('/') + 1);
+
         pd.moves.push(moveDetail);
       }
 
-      // pd.moves = res['moves'].map(move => {
-      //   const moveDetail = {} as Move;
-      //   moveDetail.name = move.move.name.charAt(0).toUpperCase() + move.move.name.slice(1);
-      //   moveDetail.url = move.move.url;
-      //   return moveDetail;
-      // });
-
       return pd;
+    }));
+  }
+
+  // Returns a specific move of a Pokemon
+  getMoveDetail(id) {
+    const url = `${this.baseURL}/move/${id}`;
+    return this.httpClient.get(url).pipe(map(res => {
+      const moveDetails = {} as MoveDetail;
+      moveDetails.id = res['id'];
+      moveDetails.name = res['name'];
+      moveDetails.name = moveDetails.name.charAt(0).toUpperCase() + moveDetails.name.slice(1);
+      moveDetails.type = res['type'].name;
+      moveDetails.type = moveDetails.type.charAt(0).toUpperCase() + moveDetails.type.slice(1);
+      moveDetails.power = (res['power'] ? res['power'] : 0);
+      moveDetails.pp = res['pp'];
+      moveDetails.accuracy = res['accuracy'];
+
+      moveDetails.summary = (res['effect_entries'] ? res['effect_entries'][0].effect : '');
+      return moveDetails;
     }));
   }
 }

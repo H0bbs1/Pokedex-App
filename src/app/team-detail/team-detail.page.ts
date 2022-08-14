@@ -15,10 +15,8 @@ export class TeamDetailPage implements OnInit {
 
   constructor(private data: DataManagerService, private route: ActivatedRoute, private storage: StorageService) {
     this.teamName = this.route.snapshot.paramMap.get('name');
-    console.log(this.teamName);
     this.storage.getPokemons(this.teamName).then(res => {
       this.pokemons = res;
-      //splice to remove
     });
   }
 

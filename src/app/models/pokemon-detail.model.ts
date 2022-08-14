@@ -14,6 +14,17 @@ export interface Stat {
 }
 
 export interface Move {
+    id: string;
     name: string;
     url: string;
+}
+
+export interface MoveDetail {
+    id: string;
+    name: string;
+    type: string;
+    power: number;
+    pp: number;
+    accuracy: number;
+    summary: string;
 }

@@ -18,12 +18,10 @@ export class HomePage {
   loadTeamNames() {
     this.storage.getAllTeamNames().then(res => {
       this.teamNames = res;
-      console.log(this.teamNames);
     });
   }
 
   deleteTeam(team) {
-    console.log(team);
     this.storage.deleteTeam(team);
     this.loadTeamNames();
   }

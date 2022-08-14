@@ -47,7 +47,9 @@ export class PokemonDetailPage implements OnInit {
         {
           text: 'OK',
           handler: (teamName) => {
-            this.addToStorage(teamName);
+            if (teamInput.length !== 0) {
+              this.addToStorage(teamName);
+            }
           }
         },
         {

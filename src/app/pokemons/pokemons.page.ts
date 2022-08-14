@@ -13,7 +13,6 @@ export class PokemonsPage implements OnInit {
 
   constructor(private data: DataManagerService) {
     this.data.getPokemonList().subscribe(res => {
-      console.log(res);
       this.pokemonList = res;
     });
    }
@@ -22,7 +21,6 @@ export class PokemonsPage implements OnInit {
   }
 
   searchChanged(e) {
-    console.log(this.searchTerm);
     this.data.getPokemonList().subscribe(res => {
       this.pokemonList = res;
       if (this.searchTerm !== '') {

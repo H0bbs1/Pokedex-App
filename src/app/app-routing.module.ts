@@ -27,6 +27,10 @@ const routes: Routes = [
     path: 'landing',
     loadChildren: () => import('./landing/landing.module').then( m => m.LandingPageModule)
   },
+  {
+    path: 'move-detail/:id',
+    loadChildren: () => import('./move-detail/move-detail.module').then( m => m.MoveDetailPageModule)
+  },
 ];
 
 @NgModule({
